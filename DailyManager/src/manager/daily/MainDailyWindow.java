@@ -19,6 +19,7 @@ public class MainDailyWindow {
 	private JFrame frame;
 	private JTable dailyTable;
 	private static MainDailyWindow thisWindow;
+	private Manager dailyManager;
 
 	/**
 	 * Launch the application.
@@ -40,6 +41,13 @@ public class MainDailyWindow {
 	 * Create the application.
 	 */
 	public MainDailyWindow() {
+		thisWindow = this;
+		initialize();
+		thisWindow.frame.setVisible(true);
+	}
+	
+	public MainDailyWindow(Manager man){
+		dailyManager = man;
 		thisWindow = this;
 		initialize();
 		thisWindow.frame.setVisible(true);
@@ -114,10 +122,16 @@ public class MainDailyWindow {
 		}
 	}
 	public void addDaily(String s){
+		if(dailyManager.getNumberofDailys() == 0){
+			DefaultTableModel model = (DefaultTableModel)dailyTable.getModel();
+			model.removeRow(0);
+		}
 		Daily d = new Daily(s);
+		dailyManager.addDaily(d);
 		addRow(d.getDailyDescription(), d.getCompletedToday());
 	}
 	public void deleteDaily(){
+		dailyManager.removeDaily(dailyTable.getSelectedRow());
 		deleteRow();
 	}
 	

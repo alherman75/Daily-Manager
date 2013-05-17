@@ -17,7 +17,6 @@ public class Daily {
 	
 	public static void main(String Args[]){
 		Daily d = new Daily();
-		System.out.println(d.getHistoryDate().get(0).get(Calendar.YEAR));
 		d.getHistoryDate().get(0).get(Calendar.DAY_OF_MONTH);
 	}
 	

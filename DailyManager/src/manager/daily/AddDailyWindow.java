@@ -107,7 +107,6 @@ public class AddDailyWindow {
 
 	private void confirmButton() {
 		if (txtTaskEntry.getText().length() > 0) {
-			System.out.println(txtTaskEntry.getText());
 			mainWindow.addDaily(txtTaskEntry.getText());
 			exitWindow();
 		}
