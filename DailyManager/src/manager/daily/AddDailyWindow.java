@@ -73,7 +73,6 @@ public class AddDailyWindow {
 		JLabel lblTaskEntry = new JLabel("Enter Task Description:");
 		frmAddNewDaily.getContentPane().add(lblTaskEntry, "cell 0 0");
 		frmAddNewDaily.setFocusable(true);
-		frmAddNewDaily.setAlwaysOnTop(true);
 		
 		txtTaskEntry = new JTextField();
 		txtTaskEntry.addKeyListener(new KeyAdapter() {

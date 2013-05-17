@@ -40,7 +40,9 @@ public class MainDailyWindow {
 	 * Create the application.
 	 */
 	public MainDailyWindow() {
+		thisWindow = this;
 		initialize();
+		thisWindow.frame.setVisible(true);
 	}
 
 	/**

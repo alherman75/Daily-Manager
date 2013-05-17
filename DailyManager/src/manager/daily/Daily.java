@@ -76,13 +76,31 @@ public class Daily {
 		
 		historyDate.add(new GregorianCalendar());
 		historyComplete.add(new Boolean(false));
+		
 	}
 	
-	private void addHistory(GregorianCalendar cal, boolean completed){
+	@Override
+	public boolean equals(Object obj){
+		boolean result = false;
+		if(obj instanceof Daily){
+			Daily second = (Daily)obj;
+			if(second.getDailyDescription() == this.getDailyDescription() 
+					&& second.getId() == this.getId()){
+				result = true;
+			}
+		}
+		return result;
+	}
+	
+	public void addHistory(GregorianCalendar cal, boolean completed){
 		historyDate.add(cal);
 		historyComplete.add(new Boolean(completed));
 	}
 	
+	public void resetHistory(){
+		historyDate = new ArrayList<GregorianCalendar>();
+		historyComplete = new ArrayList<Boolean>();
+	}
 	
 	
 }
