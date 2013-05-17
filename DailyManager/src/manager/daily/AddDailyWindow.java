@@ -30,8 +30,8 @@ public class AddDailyWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddDailyWindow window = new AddDailyWindow();
-					window.frmAddNewDaily.setVisible(true);
+//					AddDailyWindow window = new AddDailyWindow();
+//					window.frmAddNewDaily.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,6 +50,7 @@ public class AddDailyWindow {
 		mainWindow = window;
 		mainWindow.enableFrame(false);
 		initialize();
+		txtTaskEntry.grabFocus();
 	}
 
 	/**
@@ -92,6 +93,7 @@ public class AddDailyWindow {
 		frmAddNewDaily.getContentPane().add(txtTaskEntry,
 				"cell 0 1 2 1,alignx left,aligny top");
 		txtTaskEntry.setColumns(45);
+		txtTaskEntry.grabFocus();
 
 		JButton btnNewButton = new JButton("Confirm");
 		btnNewButton.addActionListener(new ActionListener() {

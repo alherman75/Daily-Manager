@@ -2,9 +2,11 @@ package manager.daily;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JButton;
@@ -75,6 +77,7 @@ public class MainDailyWindow {
 		dailyTable.getColumnModel().getColumn(1).setPreferredWidth(67);
 		dailyTable.getColumnModel().getColumn(1).setMinWidth(67);
 		dailyTable.getColumnModel().getColumn(1).setMaxWidth(67);
+		dailyTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		dailyWindow.setViewportView(dailyTable);
 		
 		JButton btnAddNewDaily = new JButton("Add New Daily");
@@ -86,6 +89,15 @@ public class MainDailyWindow {
 		btnAddNewDaily.setBounds(312, 80, 154, 46);
 		mainPanel.add(btnAddNewDaily);
 		
+		JButton btnDeleteDaily = new JButton("Delete Daily");
+		btnDeleteDaily.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				deleteDaily();
+			}
+		});
+		btnDeleteDaily.setBounds(312, 137, 154, 46);
+		mainPanel.add(btnDeleteDaily);
+		
 		
 	}
 	
@@ -93,10 +105,20 @@ public class MainDailyWindow {
 		DefaultTableModel model = (DefaultTableModel)dailyTable.getModel();
 		model.addRow(new Object[]{s, new Boolean(b)});
 	}
+	private void deleteRow(){
+		if(dailyTable.getSelectedRow() != -1){
+			DefaultTableModel model = (DefaultTableModel)dailyTable.getModel();
+			model.removeRow(dailyTable.getSelectedRow());
+		}
+	}
 	public void addDaily(String s){
 		Daily d = new Daily(s);
 		addRow(d.getDailyDescription(), d.getCompletedToday());
 	}
+	public void deleteDaily(){
+		deleteRow();
+	}
+	
 	public void enableFrame(boolean b){
 		frame.setEnabled(b);
 	}
