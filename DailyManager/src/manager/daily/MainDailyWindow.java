@@ -20,6 +20,7 @@ public class MainDailyWindow {
 	private JTable dailyTable;
 	private static MainDailyWindow thisWindow;
 	private Manager dailyManager;
+	private JPanel mainPanel;
 
 	/**
 	 * Launch the application.
@@ -62,7 +63,7 @@ public class MainDailyWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JPanel mainPanel = new JPanel();
+		mainPanel = new JPanel();
 		mainPanel.setBounds(0, 0, 605, 463);
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
@@ -94,6 +95,9 @@ public class MainDailyWindow {
 		btnAddNewDaily.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AddDailyWindow a = new AddDailyWindow(thisWindow);
+//				frame.getContentPane().removeAll();
+//				frame.getContentPane().add(new TestPanel());
+//				frame.getContentPane().repaint();
 			}
 		});
 		btnAddNewDaily.setBounds(312, 80, 154, 46);
