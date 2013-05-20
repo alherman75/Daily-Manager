@@ -51,6 +51,10 @@ public class Daily {
 	public void setCompletedToday(Boolean completedToday) {
 		this.completedToday = completedToday;
 	}
+	public Boolean toggleCompletedToday(){
+		completedToday = !completedToday;
+		return completedToday;
+	}
 
 	//Default Constructor
 	public Daily(){

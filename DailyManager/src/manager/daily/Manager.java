@@ -54,6 +54,16 @@ public class Manager {
 			printList();
 		}
 	}
+	
+	public Boolean toggleCompleted(int index){
+		if (index >= 0) {
+			Boolean temp = dailyList.get(index).toggleCompletedToday();
+			printList();
+			return temp;
+		}
+		
+		return false;
+	}
 
 	private int searchList(Daily d) {
 		for (int i = 0; i < dailyList.size(); i++) {
@@ -69,7 +79,7 @@ public class Manager {
 		for (int i = 0; i < dailyList.size(); i++) {
 			System.out.println(i + ": "
 					+ dailyList.get(i).getDailyDescription() + " "
-					+ dailyList.get(i).getId());
+					+ dailyList.get(i).getId() + " Completed: " + dailyList.get(i).getCompletedToday());
 		}
 		System.out.println();
 	}

@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-
 public class MainDailyWindow {
 
 	private JFrame frame;
@@ -46,8 +45,8 @@ public class MainDailyWindow {
 		initialize();
 		thisWindow.frame.setVisible(true);
 	}
-	
-	public MainDailyWindow(Manager man){
+
+	public MainDailyWindow(Manager man) {
 		dailyManager = man;
 		thisWindow = this;
 		initialize();
@@ -62,47 +61,42 @@ public class MainDailyWindow {
 		frame.setBounds(100, 100, 621, 501);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+
 		mainPanel = new JPanel();
 		mainPanel.setBounds(0, 0, 605, 463);
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
-		
+
 		JScrollPane dailyWindow = new JScrollPane();
 		dailyWindow.setBounds(10, 11, 238, 441);
 		mainPanel.add(dailyWindow);
-		
-		dailyTable = new JTable(){
-			public boolean isCellEditable(int row, int column) {                
-                return false;               
+
+		dailyTable = new JTable() {
+			public boolean isCellEditable(int row, int column) {
+				return false;
 			};
 		};
-		dailyTable.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"Sample Daily", Boolean.FALSE},
-			},
-			new String[] {
-				"Daily", "Completed"
-			}
-		));
+		dailyTable.setModel(new DefaultTableModel(new Object[][] { {
+				"Sample Daily", Boolean.FALSE }, }, new String[] { "Daily",
+				"Completed" }));
 		dailyTable.getColumnModel().getColumn(1).setPreferredWidth(67);
 		dailyTable.getColumnModel().getColumn(1).setMinWidth(67);
 		dailyTable.getColumnModel().getColumn(1).setMaxWidth(67);
 		dailyTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		dailyWindow.setViewportView(dailyTable);
-		
+
 		JButton btnAddNewDaily = new JButton("Add New Daily");
 		btnAddNewDaily.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AddDailyWindow a = new AddDailyWindow(thisWindow);
-//				frame.getContentPane().removeAll();
-//				frame.getContentPane().add(new TestPanel());
-//				frame.getContentPane().repaint();
+				// frame.getContentPane().removeAll();
+				// frame.getContentPane().add(new TestPanel());
+				// frame.getContentPane().repaint();
 			}
 		});
 		btnAddNewDaily.setBounds(312, 80, 154, 46);
 		mainPanel.add(btnAddNewDaily);
-		
+
 		JButton btnDeleteDaily = new JButton("Delete Daily");
 		btnDeleteDaily.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -111,37 +105,57 @@ public class MainDailyWindow {
 		});
 		btnDeleteDaily.setBounds(312, 137, 154, 46);
 		mainPanel.add(btnDeleteDaily);
-		
-		
+
+		JButton btnToggleCompleted = new JButton("Toggle Completed");
+		btnToggleCompleted.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				toggleCompleted();
+			}
+		});
+		btnToggleCompleted.setBounds(312, 194, 154, 46);
+		mainPanel.add(btnToggleCompleted);
+
 	}
-	
-	private void addRow(String s, boolean b){
-		DefaultTableModel model = (DefaultTableModel)dailyTable.getModel();
-		model.addRow(new Object[]{s, new Boolean(b)});
+
+	private void addRow(String s, boolean b) {
+		DefaultTableModel model = (DefaultTableModel) dailyTable.getModel();
+		model.addRow(new Object[] { s, new Boolean(b) });
 	}
-	private void deleteRow(){
-		if(dailyTable.getSelectedRow() != -1){
-			DefaultTableModel model = (DefaultTableModel)dailyTable.getModel();
+
+	private void deleteRow() {
+		if (dailyTable.getSelectedRow() != -1) {
+			DefaultTableModel model = (DefaultTableModel) dailyTable.getModel();
 			model.removeRow(dailyTable.getSelectedRow());
 		}
 	}
-	public void addDaily(String s){
-		if(dailyManager.getNumberofDailys() == 0){
-			DefaultTableModel model = (DefaultTableModel)dailyTable.getModel();
+
+	public void addDaily(String s) {
+		if (dailyManager.getNumberofDailys() == 0) {
+			DefaultTableModel model = (DefaultTableModel) dailyTable.getModel();
 			model.removeRow(0);
 		}
 		Daily d = new Daily(s);
 		dailyManager.addDaily(d);
 		addRow(d.getDailyDescription(), d.getCompletedToday());
 	}
-	public void deleteDaily(){
-		dailyManager.removeDaily(dailyTable.getSelectedRow());
-		deleteRow();
+
+	public void deleteDaily() {
+		if (dailyTable.getSelectedRow() != -1) {
+			dailyManager.removeDaily(dailyTable.getSelectedRow());
+			deleteRow();
+		}
 	}
-	
-	public void enableFrame(boolean b){
+
+	public void toggleCompleted() {
+		if (dailyTable.getSelectedRow() != -1) {
+			Boolean bool = dailyManager.toggleCompleted(dailyTable
+					.getSelectedRow());
+			DefaultTableModel model = (DefaultTableModel) dailyTable.getModel();
+			model.setValueAt(bool, dailyTable.getSelectedRow(), 1);
+		}
+	}
+
+	public void enableFrame(boolean b) {
 		frame.setEnabled(b);
 	}
 }
-
-
