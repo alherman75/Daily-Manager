@@ -1,70 +1,24 @@
-package manager.daily;
+package manager.daily.windows;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import manager.daily.*;
 
-public class MainDailyWindow {
+public class DailyPanel extends JPanel {
 
-	private JFrame frame;
 	private JTable dailyTable;
-	private static MainDailyWindow thisWindow;
+	private static MainWindow thisWindow;
 	private Manager dailyManager;
-	private JPanel mainPanel;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					thisWindow = new MainDailyWindow();
-					thisWindow.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public MainDailyWindow() {
-		thisWindow = this;
-		initialize();
-		thisWindow.frame.setVisible(true);
-	}
-
-	public MainDailyWindow(Manager man) {
+	private DailyPanel mainPanel;
+	
+	public DailyPanel(MainWindow window, Manager man) {
+		thisWindow = window;
 		dailyManager = man;
-		thisWindow = this;
-		initialize();
-		thisWindow.frame.setVisible(true);
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 621, 501);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-
-		mainPanel = new JPanel();
+		
+		mainPanel = this;
 		mainPanel.setBounds(0, 0, 605, 463);
-		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
 
 		JScrollPane dailyWindow = new JScrollPane();
@@ -88,10 +42,7 @@ public class MainDailyWindow {
 		JButton btnAddNewDaily = new JButton("Add New Daily");
 		btnAddNewDaily.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AddDailyWindow a = new AddDailyWindow(thisWindow);
-				// frame.getContentPane().removeAll();
-				// frame.getContentPane().add(new TestPanel());
-				// frame.getContentPane().repaint();
+				AddDailyWindow a = new AddDailyWindow(thisWindow, mainPanel);
 			}
 		});
 		btnAddNewDaily.setBounds(312, 80, 154, 46);
@@ -155,7 +106,4 @@ public class MainDailyWindow {
 		}
 	}
 
-	public void enableFrame(boolean b) {
-		frame.setEnabled(b);
-	}
 }

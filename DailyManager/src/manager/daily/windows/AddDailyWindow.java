@@ -1,4 +1,4 @@
-package manager.daily;
+package manager.daily.windows;
 
 import java.awt.EventQueue;
 
@@ -8,6 +8,8 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -21,7 +23,8 @@ public class AddDailyWindow {
 
 	private JFrame frmAddNewDaily;
 	private JTextField txtTaskEntry;
-	private MainDailyWindow mainWindow;
+	private MainWindow mainWindow;
+	private DailyPanel mainPanel;
 
 	/**
 	 * Launch the application.
@@ -46,11 +49,26 @@ public class AddDailyWindow {
 		initialize();
 	}
 
-	public AddDailyWindow(MainDailyWindow window) {
-		mainWindow = window;
-		mainWindow.enableFrame(false);
+//	public AddDailyWindow(MainDailyWindow window) {
+//		mainWindow = window;
+//		mainWindow.enableFrame(false);
+//		initialize();
+//		txtTaskEntry.grabFocus();
+//	}
+	
+	public AddDailyWindow(DailyPanel panel){
+		mainPanel = panel;
+		mainPanel.setEnabled(false);
 		initialize();
 		txtTaskEntry.grabFocus();
+	}
+	
+	public AddDailyWindow(MainWindow window, DailyPanel panel){
+		mainWindow = window;
+		mainPanel = panel;
+		mainWindow.enableFrame(false);
+		initialize();
+		txtTaskEntry.grabFocus();	
 	}
 
 	/**
@@ -107,7 +125,7 @@ public class AddDailyWindow {
 
 	private void confirmButton() {
 		if (txtTaskEntry.getText().length() > 0) {
-			mainWindow.addDaily(txtTaskEntry.getText());
+			mainPanel.addDaily(txtTaskEntry.getText());
 			exitWindow();
 		}
 	}

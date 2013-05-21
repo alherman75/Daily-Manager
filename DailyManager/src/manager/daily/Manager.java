@@ -1,17 +1,19 @@
 package manager.daily;
 
 import java.util.*;
+import manager.daily.windows.*;
 
 public class Manager {
 
 	private int numberofDailys;
 	private ArrayList<Daily> dailyList;
 	private static Manager thisManager;
+	private static MainWindow mainWindow;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		thisManager = new Manager();
-		MainDailyWindow window = new MainDailyWindow(thisManager);
+		mainWindow = new MainWindow(thisManager);
 	}
 
 	public ArrayList<Daily> getDailyList() {
