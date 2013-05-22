@@ -1,4 +1,4 @@
-package manager.daily.windows;
+package manager.windows;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +12,7 @@ public class DailyPanel extends JPanel {
 	private static MainWindow thisWindow;
 	private Manager dailyManager;
 	private DailyPanel mainPanel;
+	private JTable historyTable;
 	
 	public DailyPanel(MainWindow window, Manager man) {
 		thisWindow = window;
@@ -20,10 +21,11 @@ public class DailyPanel extends JPanel {
 		mainPanel = this;
 		mainPanel.setBounds(0, 0, 605, 463);
 		mainPanel.setLayout(null);
+		setLayout(null);
 
-		JScrollPane dailyWindow = new JScrollPane();
-		dailyWindow.setBounds(10, 11, 238, 441);
-		mainPanel.add(dailyWindow);
+		JScrollPane dailyPane = new JScrollPane();
+		dailyPane.setBounds(10, 11, 238, 441);
+		mainPanel.add(dailyPane);
 
 		dailyTable = new JTable() {
 			public boolean isCellEditable(int row, int column) {
@@ -37,7 +39,7 @@ public class DailyPanel extends JPanel {
 		dailyTable.getColumnModel().getColumn(1).setMinWidth(67);
 		dailyTable.getColumnModel().getColumn(1).setMaxWidth(67);
 		dailyTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		dailyWindow.setViewportView(dailyTable);
+		dailyPane.setViewportView(dailyTable);
 
 		JButton btnAddNewDaily = new JButton("Add New Daily");
 		btnAddNewDaily.addActionListener(new ActionListener() {
@@ -45,7 +47,7 @@ public class DailyPanel extends JPanel {
 				AddDailyWindow a = new AddDailyWindow(thisWindow, mainPanel);
 			}
 		});
-		btnAddNewDaily.setBounds(312, 80, 154, 46);
+		btnAddNewDaily.setBounds(312, 11, 154, 46);
 		mainPanel.add(btnAddNewDaily);
 
 		JButton btnDeleteDaily = new JButton("Delete Daily");
@@ -54,7 +56,7 @@ public class DailyPanel extends JPanel {
 				deleteDaily();
 			}
 		});
-		btnDeleteDaily.setBounds(312, 137, 154, 46);
+		btnDeleteDaily.setBounds(312, 68, 154, 46);
 		mainPanel.add(btnDeleteDaily);
 
 		JButton btnToggleCompleted = new JButton("Toggle Completed");
@@ -63,8 +65,22 @@ public class DailyPanel extends JPanel {
 				toggleCompleted();
 			}
 		});
-		btnToggleCompleted.setBounds(312, 194, 154, 46);
+		btnToggleCompleted.setBounds(312, 125, 154, 46);
 		mainPanel.add(btnToggleCompleted);
+		
+		JScrollPane historyPane = new JScrollPane();
+		historyPane.setBounds(258, 179, 265, 273);
+		add(historyPane);
+		
+		historyTable = new JTable();
+		historyTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Date", "Completed"
+			}
+		));
+		historyPane.setViewportView(historyTable);
 
 	}
 
@@ -105,5 +121,4 @@ public class DailyPanel extends JPanel {
 			model.setValueAt(bool, dailyTable.getSelectedRow(), 1);
 		}
 	}
-
 }

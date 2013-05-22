@@ -1,11 +1,10 @@
-package manager.daily.windows;
+package manager.windows;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
 import javax.swing.*;
 import manager.daily.*;
-import manager.daily.windows.*;
+import manager.windows.*;
 
 public class MainWindow {
 

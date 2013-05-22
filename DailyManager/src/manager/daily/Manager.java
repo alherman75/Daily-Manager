@@ -1,7 +1,8 @@
 package manager.daily;
 
 import java.util.*;
-import manager.daily.windows.*;
+
+import manager.windows.*;
 
 public class Manager {
 

@@ -1,4 +1,4 @@
-package manager.daily.windows;
+package manager.windows;
 
 import java.awt.EventQueue;
 
