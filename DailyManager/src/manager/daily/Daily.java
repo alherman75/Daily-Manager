@@ -1,5 +1,8 @@
 package manager.daily;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Daily {
@@ -63,7 +66,7 @@ public class Daily {
 
 	public Boolean toggleCompletedToday() {
 		completedToday = !completedToday;
-		historyComplete.set(historyComplete.size()-1, completedToday);
+		historyComplete.set(historyComplete.size() - 1, completedToday);
 		return completedToday;
 	}
 
@@ -121,22 +124,46 @@ public class Daily {
 		String result = "";
 		result += dailyDescription;
 		// /h indicates start of history
-		result += " /h";
+		result += "\n";
 		for (int i = 0; i < historyDate.size(); i++) {
 			GregorianCalendar date = historyDate.get(i);
-			result += date.get(GregorianCalendar.YEAR) + "."
-					+ date.get(GregorianCalendar.MONTH) + "."
-					+ date.get(GregorianCalendar.DAY_OF_MONTH) + " ";
-			
+			result += new SimpleDateFormat("MM/dd/yyyy").format(date.getTime())
+					+ " ";
+
 			boolean complete = historyComplete.get(i);
-			if(complete == true){
-				result += 1 + " ";
-			} else if(complete == false){
-				result += 0 + " ";
+			if (complete == true) {
+				result += 1;
+			} else if (complete == false) {
+				result += 0;
 			}
 		}
 
 		return result;
+	}
+
+	// needs testing
+	public void readDaily(BufferedReader reader) throws IOException {
+		try{
+		String line = null;
+		line = reader.readLine();
+		dailyDescription = line;
+		line = reader.readLine();
+		for (int i = 0; i < line.length(); i += 12) {
+			int month = Integer.parseInt(line.substring(i, i + 1));
+			int day = Integer.parseInt(line.substring(i + 3, i + 4));
+			int year = Integer.parseInt(line.substring(i + 6, i + 9));
+			String complete = line.substring(i + 11, i + 11);
+			
+			boolean comp;
+			if (complete == "1")
+				comp = true;
+			else
+				comp = false;
+			addHistory(new GregorianCalendar(year, month, day), comp);
+		}
+		} catch(IOException e){
+			System.err.println("Caught IOException: " + e.getMessage());
+		}
 	}
 
 }
