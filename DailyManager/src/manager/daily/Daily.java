@@ -63,6 +63,7 @@ public class Daily {
 
 	public Boolean toggleCompletedToday() {
 		completedToday = !completedToday;
+		historyComplete.set(historyComplete.size()-1, completedToday);
 		return completedToday;
 	}
 
@@ -119,10 +120,11 @@ public class Daily {
 	public String toString() {
 		String result = "";
 		result += dailyDescription;
+		// /h indicates start of history
 		result += " /h";
 		for (int i = 0; i < historyDate.size(); i++) {
 			GregorianCalendar date = historyDate.get(i);
-			result += date.get(GregorianCalendar.DAY_OF_YEAR) + "."
+			result += date.get(GregorianCalendar.YEAR) + "."
 					+ date.get(GregorianCalendar.MONTH) + "."
 					+ date.get(GregorianCalendar.DAY_OF_MONTH) + " ";
 			

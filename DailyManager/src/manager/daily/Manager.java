@@ -28,7 +28,7 @@ public class Manager {
 	public int getNumberofDailys() {
 		return numberofDailys;
 	}
-
+	
 	// Not Getters and Setters
 
 	public Manager() {
