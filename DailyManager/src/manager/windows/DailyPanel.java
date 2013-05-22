@@ -13,11 +13,11 @@ public class DailyPanel extends JPanel {
 	private Manager dailyManager;
 	private DailyPanel mainPanel;
 	private JTable historyTable;
-	
+
 	public DailyPanel(MainWindow window, Manager man) {
 		thisWindow = window;
 		dailyManager = man;
-		
+
 		mainPanel = this;
 		mainPanel.setBounds(0, 0, 605, 463);
 		mainPanel.setLayout(null);
@@ -67,21 +67,16 @@ public class DailyPanel extends JPanel {
 		});
 		btnToggleCompleted.setBounds(312, 125, 154, 46);
 		mainPanel.add(btnToggleCompleted);
-		
+
 		JScrollPane historyPane = new JScrollPane();
 		historyPane.setBounds(258, 179, 265, 273);
 		add(historyPane);
-		
-		historyTable = new JTable();
-		historyTable.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Date", "Completed"
-			}
-		));
-		historyPane.setViewportView(historyTable);
 
+		historyTable = new JTable();
+		historyTable.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "Date", "Completed" }));
+		historyPane.setViewportView(historyTable);
+		
 	}
 
 	private void addRow(String s, boolean b) {
