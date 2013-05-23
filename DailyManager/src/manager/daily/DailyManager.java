@@ -1,19 +1,22 @@
 package manager.daily;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import manager.windows.*;
 
-public class Manager {
+public class DailyManager {
 
 	private int numberofDailys;
 	private ArrayList<Daily> dailyList;
-	private static Manager thisManager;
+	private static DailyManager thisManager;
 	private static MainWindow mainWindow;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		thisManager = new Manager();
+		thisManager = new DailyManager();
 		mainWindow = new MainWindow(thisManager);
 	}
 
@@ -31,7 +34,7 @@ public class Manager {
 	
 	// Not Getters and Setters
 
-	public Manager() {
+	public DailyManager() {
 		numberofDailys = 0;
 		dailyList = new ArrayList<Daily>();
 	}
@@ -79,12 +82,43 @@ public class Manager {
 	}
 
 	private void printList() {
-		for (int i = 0; i < dailyList.size(); i++) {
-			System.out.println(i + ": "
-					+ dailyList.get(i).getDailyDescription() + " "
-					+ dailyList.get(i).getId() + " Completed: " + dailyList.get(i).getCompletedToday());
+//		for (int i = 0; i < dailyList.size(); i++) {
+//			System.out.println(i + ": "
+//					+ dailyList.get(i).getDailyDescription() + " "
+//					+ dailyList.get(i).getId() + " Completed: " + dailyList.get(i).getCompletedToday());
+//		}
+//		System.out.println();
+		System.out.println(toString());
+	}
+	
+	@Override
+	public String toString(){
+		String result = "";
+		DecimalFormat format = new DecimalFormat("000");
+		result += "daily " + format.format(numberofDailys) + "\n";
+		
+		for(int i = 0; i < dailyList.size(); i++){
+			result += dailyList.get(i).toString();
+			if(i + 1 < dailyList.size())
+				result += "\n";
 		}
-		System.out.println();
+		
+		return result;
+	}
+	
+	//needs testing
+	public void readDailys(BufferedReader reader) throws IOException{
+		String line;
+		line = reader.readLine();
+		if(line.substring(0, 4) == "daily"){
+			int numDailys;
+			numDailys = Integer.parseInt(line.substring(6,8));
+			for(int i = 0; i < numDailys; i++){
+				Daily d = new Daily();
+				d.readDaily(reader);
+				addDaily(d);
+			}
+		}
 	}
 
 }

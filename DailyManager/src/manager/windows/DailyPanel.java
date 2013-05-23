@@ -17,12 +17,12 @@ public class DailyPanel extends JPanel {
 
 	private JTable dailyTable;
 	private static MainWindow thisWindow;
-	private Manager dailyManager;
+	private DailyManager dailyManager;
 	private DailyPanel mainPanel;
 	private JTable historyTable;
 	private DefaultTableModel defaultHistoryTable;
 
-	public DailyPanel(MainWindow window, Manager man) {
+	public DailyPanel(MainWindow window, DailyManager man) {
 		thisWindow = window;
 		dailyManager = man;
 
@@ -160,6 +160,7 @@ public class DailyPanel extends JPanel {
 					.getSelectedRow());
 			DefaultTableModel model = (DefaultTableModel) dailyTable.getModel();
 			model.setValueAt(bool, dailyTable.getSelectedRow(), 1);
+			updateHistory();
 		}
 	}
 }

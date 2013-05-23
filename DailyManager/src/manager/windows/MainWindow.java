@@ -10,7 +10,7 @@ public class MainWindow {
 
 	private JFrame frame;
 	private JPanel currentPanel;
-	private Manager dailyManager;
+	private DailyManager dailyManager;
 	private MainWindow thisWindow;
 
 	/**
@@ -34,7 +34,7 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		thisWindow = this;
-		currentPanel = new DailyPanel(thisWindow, new Manager());
+		currentPanel = new DailyPanel(thisWindow, new DailyManager());
 		initialize();
 	}
 	
@@ -43,7 +43,7 @@ public class MainWindow {
 		initialize();
 	}
 	
-	public MainWindow(Manager man){
+	public MainWindow(DailyManager man){
 		thisWindow = this;
 		dailyManager = man;
 		currentPanel = new DailyPanel(thisWindow, man);
