@@ -12,6 +12,12 @@ import java.util.GregorianCalendar;
 import manager.daily.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class DailyPanel extends JPanel {
 
@@ -21,15 +27,18 @@ public class DailyPanel extends JPanel {
 	private DailyPanel mainPanel;
 	private JTable historyTable;
 	private DefaultTableModel defaultHistoryTable;
+	private JFileChooser fileChooser;
 
 	public DailyPanel(MainWindow window, DailyManager man) {
 		thisWindow = window;
 		dailyManager = man;
 
 		mainPanel = this;
-		mainPanel.setBounds(0, 0, 605, 463);
+		mainPanel.setBounds(0, 0, 700, 525);
 		mainPanel.setLayout(null);
 		setLayout(null);
+		
+		fileChooser = new JFileChooser();
 
 		JScrollPane dailyPane = new JScrollPane();
 		dailyPane.setBounds(10, 11, 238, 441);
@@ -109,6 +118,24 @@ public class DailyPanel extends JPanel {
 		lblDailyHistory.setBounds(258, 162, 68, 14);
 		add(lblDailyHistory);
 		
+		JButton btnLoadDailys = new JButton("Load Dailys");
+		btnLoadDailys.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				loadDaily();
+			}
+		});
+		btnLoadDailys.setBounds(533, 179, 89, 23);
+		add(btnLoadDailys);
+		
+		JButton btnSaveDailys = new JButton("Save Dailys");
+		btnSaveDailys.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveDaily();
+			}
+		});
+		btnSaveDailys.setBounds(533, 213, 89, 23);
+		add(btnSaveDailys);
+		
 	}
 
 	private void addRow(String s, boolean b) {
@@ -161,6 +188,36 @@ public class DailyPanel extends JPanel {
 			DefaultTableModel model = (DefaultTableModel) dailyTable.getModel();
 			model.setValueAt(bool, dailyTable.getSelectedRow(), 1);
 			updateHistory();
+		}
+	}
+	
+	private void saveDaily(){
+		int returnVal = fileChooser.showSaveDialog(mainPanel);
+		if(returnVal == JFileChooser.APPROVE_OPTION){
+			File file = fileChooser.getSelectedFile();
+			try {
+				FileWriter fw = new FileWriter(file);
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(dailyManager.toString());
+				bw.close();
+				fw.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	private void loadDaily(){
+		int returnVal = fileChooser.showOpenDialog(mainPanel);
+		if(returnVal == JFileChooser.APPROVE_OPTION){
+			File file = fileChooser.getSelectedFile();
+			try{
+				FileReader fr = new FileReader(file);
+				BufferedReader br = new BufferedReader(fr);
+			} catch (IOException e){
+				e.printStackTrace();
+			}
 		}
 	}
 }
