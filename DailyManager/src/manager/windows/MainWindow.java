@@ -64,5 +64,9 @@ public class MainWindow {
 	public void enableFrame(boolean b){
 		frame.setEnabled(b);
 	}
+	
+	public JFrame getFrame(){
+		return frame;
+	}
 
 }

@@ -3,6 +3,7 @@ package manager.windows;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +40,9 @@ public class DailyPanel extends JPanel {
 		setLayout(null);
 		
 		fileChooser = new JFileChooser();
-
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Daily Save File", "dts"));
+		
+		
 		JScrollPane dailyPane = new JScrollPane();
 		dailyPane.setBounds(10, 11, 238, 441);
 		mainPanel.add(dailyPane);
@@ -195,6 +198,9 @@ public class DailyPanel extends JPanel {
 		int returnVal = fileChooser.showSaveDialog(mainPanel);
 		if(returnVal == JFileChooser.APPROVE_OPTION){
 			File file = fileChooser.getSelectedFile();
+			if(!file.getName().endsWith(".dts"))
+				file = new File(fileChooser.getSelectedFile() + ".dts");
+			
 			try {
 				FileWriter fw = new FileWriter(file);
 				BufferedWriter bw = new BufferedWriter(fw);

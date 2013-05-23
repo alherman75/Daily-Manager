@@ -83,7 +83,8 @@ public class AddDailyWindow {
 			}
 		});
 		frmAddNewDaily.setTitle("Add New Daily Task");
-		frmAddNewDaily.setBounds(100, 100, 385, 121);
+		frmAddNewDaily.setBounds(mainWindow.getFrame().getX() + 275, 
+				mainWindow.getFrame().getY() + 150, 385, 121);
 		frmAddNewDaily.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmAddNewDaily.getContentPane().setLayout(
 				new MigLayout("", "[326px][]", "[20px][][][]"));
