@@ -38,11 +38,15 @@ public class DailyManager {
 		numberofDailys = 0;
 		dailyList = new ArrayList<Daily>();
 	}
+	public DailyManager(MainWindow window){
+		thisManager = new DailyManager();
+		mainWindow = window;
+	}
 
 	public void addDaily(Daily d) {
 		dailyList.add(d);
 		numberofDailys++;
-		printList();
+		//printList();
 	}
 
 	public void removeDaily(Daily d) {
@@ -57,7 +61,7 @@ public class DailyManager {
 		if (index >= 0) {
 			dailyList.remove(index);
 			numberofDailys--;
-			printList();
+			//printList();
 		}
 	}
 	
@@ -108,17 +112,20 @@ public class DailyManager {
 	
 	//needs testing
 	public void readDailys(BufferedReader reader) throws IOException{
+		numberofDailys = 0;
+		dailyList = new ArrayList<Daily>();
 		String line;
 		line = reader.readLine();
-		if(line.substring(0, 4) == "daily"){
+		if(line.substring(0, 5).equals("daily")){
 			int numDailys;
-			numDailys = Integer.parseInt(line.substring(6,8));
+			numDailys = Integer.parseInt(line.substring(6,9));
 			for(int i = 0; i < numDailys; i++){
 				Daily d = new Daily();
 				d.readDaily(reader);
 				addDaily(d);
 			}
 		}
+		System.out.println(this);
 	}
 
 }

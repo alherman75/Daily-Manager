@@ -79,8 +79,7 @@ public class Daily {
 		historyComplete = new ArrayList<Boolean>();
 		historyDate = new ArrayList<GregorianCalendar>();
 
-		historyDate.add(new GregorianCalendar());
-		historyComplete.add(new Boolean(false));
+		addToday();
 	}
 
 	public Daily(String description) {
@@ -91,9 +90,7 @@ public class Daily {
 		historyComplete = new ArrayList<Boolean>();
 		historyDate = new ArrayList<GregorianCalendar>();
 
-		historyDate.add(new GregorianCalendar());
-		historyComplete.add(new Boolean(false));
-
+		addToday();
 	}
 
 	@Override
@@ -129,37 +126,55 @@ public class Daily {
 			GregorianCalendar date = historyDate.get(i);
 			result += new SimpleDateFormat("MM/dd/yyyy").format(date.getTime())
 					+ " ";
-
 			boolean complete = historyComplete.get(i);
 			if (complete == true) {
 				result += 1;
 			} else if (complete == false) {
 				result += 0;
 			}
+			result += " ";
 		}
 
 		return result;
 	}
 
+	private void addToday(){
+		historyDate.add(new GregorianCalendar());
+		historyComplete.add(new Boolean(false));
+	}
+	
 	// needs testing
 	public void readDaily(BufferedReader reader) throws IOException {
+		historyComplete = new ArrayList<Boolean>();
+		historyDate = new ArrayList<GregorianCalendar>();
 		try{
 		String line = null;
 		line = reader.readLine();
 		dailyDescription = line;
 		line = reader.readLine();
-		for (int i = 0; i < line.length(); i += 12) {
-			int month = Integer.parseInt(line.substring(i, i + 1));
-			int day = Integer.parseInt(line.substring(i + 3, i + 4));
-			int year = Integer.parseInt(line.substring(i + 6, i + 9));
-			String complete = line.substring(i + 11, i + 11);
-			
+		for (int i = 0; i < line.length(); i = i+13) {
+			int month = Integer.parseInt(line.substring(i, i + 2));
+			int day = Integer.parseInt(line.substring(i + 3, i + 5));
+			int year = Integer.parseInt(line.substring(i + 6, i + 10));
+			String complete = line.substring(i + 11, i + 12);
 			boolean comp;
-			if (complete == "1")
+			if (complete.equals("1"))
 				comp = true;
 			else
 				comp = false;
-			addHistory(new GregorianCalendar(year, month, day), comp);
+			addHistory(new GregorianCalendar(year, month-1, day), comp);
+			
+		}
+		//See if most Recent is today
+		String mostRecent = new SimpleDateFormat("MM/dd/yyyy").format(
+				historyDate.get(historyDate.size()-1).getTime());
+		String today = new SimpleDateFormat("MM/dd/yyyy").format(new GregorianCalendar().getTime());
+		//System.out.println("Compare: " + mostRecent + " " + today);
+		if(mostRecent.equals(today)){
+			completedToday = historyComplete.get(historyComplete.size()-1);
+		}
+		else{
+			addToday();
 		}
 		} catch(IOException e){
 			System.err.println("Caught IOException: " + e.getMessage());

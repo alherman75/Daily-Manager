@@ -7,6 +7,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -164,8 +165,7 @@ public class DailyPanel extends JPanel {
 			
 			for(int i = 0; i < historyComp.size(); i++){
 				GregorianCalendar date = historyDate.get(i);
-				String sdate = date.get(GregorianCalendar.MONTH) + "/" + date.get(GregorianCalendar.DAY_OF_MONTH) + "/" 
-						+ date.get(GregorianCalendar.YEAR);
+				String sdate = new SimpleDateFormat("MM/dd/yyyy").format(date.getTime());
 				model.addRow(new Object[] {sdate, historyComp.get(i)});
 			}
 		}
@@ -218,12 +218,31 @@ public class DailyPanel extends JPanel {
 		int returnVal = fileChooser.showOpenDialog(mainPanel);
 		if(returnVal == JFileChooser.APPROVE_OPTION){
 			File file = fileChooser.getSelectedFile();
+			if(!file.getName().endsWith(".dts"))
+				file = new File(fileChooser.getSelectedFile() + ".dts");
+			
 			try{
 				FileReader fr = new FileReader(file);
 				BufferedReader br = new BufferedReader(fr);
+				dailyManager.readDailys(br);
+				updateDailyTable();
 			} catch (IOException e){
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	private void updateDailyTable(){
+		dailyTable.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Daily", "Completed"
+				}
+			));
+		ArrayList<Daily> list = dailyManager.getDailyList();
+		for(int i = 0; i<list.size(); i++){
+			addRow(list.get(i).getDailyDescription(), list.get(i).getCompletedToday());
 		}
 	}
 }
