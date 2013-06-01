@@ -41,7 +41,7 @@ public class DailyPanel extends JPanel {
 		setLayout(null);
 		
 		fileChooser = new JFileChooser();
-		fileChooser.setFileFilter(new FileNameExtensionFilter("Daily Save File", "dts"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Daily Save File (.dts)", "dts"));
 		
 		
 		JScrollPane dailyPane = new JScrollPane();
@@ -218,8 +218,7 @@ public class DailyPanel extends JPanel {
 		int returnVal = fileChooser.showOpenDialog(mainPanel);
 		if(returnVal == JFileChooser.APPROVE_OPTION){
 			File file = fileChooser.getSelectedFile();
-			if(!file.getName().endsWith(".dts"))
-				file = new File(fileChooser.getSelectedFile() + ".dts");
+			
 			
 			try{
 				FileReader fr = new FileReader(file);
@@ -232,7 +231,7 @@ public class DailyPanel extends JPanel {
 		}
 	}
 	
-	private void updateDailyTable(){
+	private void resetDailyTable(){
 		dailyTable.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
@@ -240,6 +239,14 @@ public class DailyPanel extends JPanel {
 					"Daily", "Completed"
 				}
 			));
+		dailyTable.getColumnModel().getColumn(1).setPreferredWidth(67);
+		dailyTable.getColumnModel().getColumn(1).setMinWidth(67);
+		dailyTable.getColumnModel().getColumn(1).setMaxWidth(67);
+	}
+	
+	private void updateDailyTable(){
+		resetDailyTable();
+		
 		ArrayList<Daily> list = dailyManager.getDailyList();
 		for(int i = 0; i<list.size(); i++){
 			addRow(list.get(i).getDailyDescription(), list.get(i).getCompletedToday());
