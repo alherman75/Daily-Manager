@@ -2,6 +2,8 @@ package manager.todo;
 
 import java.util.ArrayList;
 
+import manager.windows.MainWindow;
+
 public class ToDoManager {
 
 	private ArrayList<ToDoItem> itemList;
@@ -10,8 +12,7 @@ public class ToDoManager {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ToDoManager man = new ToDoManager();
-		man.addItem(new ToDoItem("Do This"));
-		System.out.println(man);
+		MainWindow mainWindow = new MainWindow(man);
 	}
 	
 	public ToDoManager(){

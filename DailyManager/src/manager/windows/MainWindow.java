@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.*;
 import manager.daily.*;
+import manager.todo.ToDoManager;
 import manager.windows.*;
 
 public class MainWindow {
@@ -11,6 +12,7 @@ public class MainWindow {
 	private JFrame frame;
 	private JPanel currentPanel;
 	private DailyManager dailyManager;
+	private ToDoManager toDoManager;
 	private MainWindow thisWindow;
 
 	/**
@@ -47,6 +49,14 @@ public class MainWindow {
 		thisWindow = this;
 		dailyManager = man;
 		currentPanel = new DailyPanel(thisWindow, man);
+		initialize();
+		frame.setVisible(true);
+	}
+	
+	public MainWindow(ToDoManager man){
+		thisWindow = this;
+		toDoManager = man;
+		currentPanel = new ToDoPanel(thisWindow, man);
 		initialize();
 		frame.setVisible(true);
 	}
