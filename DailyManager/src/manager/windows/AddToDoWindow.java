@@ -8,6 +8,12 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class AddToDoWindow {
 
@@ -15,7 +21,7 @@ public class AddToDoWindow {
 	private ToDoPanel mainPanel;
 	
 	private JFrame frmAddToDo;
-	private JTextField textField;
+	private JTextField itemText;
 
 	/**
 	 * Launch the application.
@@ -43,6 +49,7 @@ public class AddToDoWindow {
 	public AddToDoWindow(MainWindow window, ToDoPanel panel){
 		mainWindow = window;
 		mainPanel = panel;
+		mainWindow.enableFrame(false);
 		initialize();
 	}
 
@@ -51,15 +58,30 @@ public class AddToDoWindow {
 	 */
 	private void initialize() {
 		frmAddToDo = new JFrame();
+		frmAddToDo.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				close();
+			}
+		});
 		frmAddToDo.setTitle("Add To-Do List Item");
-		frmAddToDo.setBounds(100, 100, 444, 136);
-		frmAddToDo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAddToDo.setBounds(mainWindow.getFrame().getX() + 275, 
+				mainWindow.getFrame().getY() + 150, 444, 136);
+		frmAddToDo.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmAddToDo.getContentPane().setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 31, 412, 26);
-		frmAddToDo.getContentPane().add(textField);
-		textField.setColumns(10);
+		itemText = new JTextField();
+		itemText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
+					confirmButton();
+				}
+			}
+		});
+		itemText.setBounds(10, 31, 412, 26);
+		frmAddToDo.getContentPane().add(itemText);
+		itemText.setColumns(10);
 		
 		JLabel lblEnterNew = new JLabel("Enter new To Do Item:");
 		lblEnterNew.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -67,7 +89,26 @@ public class AddToDoWindow {
 		frmAddToDo.getContentPane().add(lblEnterNew);
 		
 		JButton btnConfirm = new JButton("Confirm");
+		btnConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				confirmButton();
+			}
+		});
 		btnConfirm.setBounds(329, 68, 89, 23);
 		frmAddToDo.getContentPane().add(btnConfirm);
+		
+		frmAddToDo.setVisible(true);
+	}
+	
+	private void close(){
+		mainWindow.enableFrame(true);
+		frmAddToDo.dispose();
+	}
+	
+	private void confirmButton(){
+		if(itemText.getText().length() >= 1){
+			mainPanel.addItem(itemText.getText());
+			close();
+		}
 	}
 }

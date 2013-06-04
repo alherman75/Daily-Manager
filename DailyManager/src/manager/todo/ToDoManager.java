@@ -66,16 +66,19 @@ public class ToDoManager {
 		completedList.remove(index);
 	}
 	
-	public void setCompleted(int index){
+	public ToDoItem setCompleted(int index){
 		ToDoItem item = itemList.get(index);
 		item.setCompleted(true);
 		itemList.remove(index);
 		completedList.add(item);
+		return item;
 	}
-	public void setNotCompeleted(int index){
+	
+	public ToDoItem setNotCompeleted(int index){
 		ToDoItem item = completedList.get(index);
 		item.setCompleted(false);
 		completedList.remove(index);
 		itemList.add(item);
+		return item;
 	}
 }
