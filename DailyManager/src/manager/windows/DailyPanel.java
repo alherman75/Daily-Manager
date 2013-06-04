@@ -23,6 +23,9 @@ import java.io.IOException;
 
 public class DailyPanel extends JPanel {
 
+	private static final int DAILY_CONST = 1;
+	private static final int TODO_CONST = 2;
+	
 	private JTable dailyTable;
 	private static MainWindow thisWindow;
 	private DailyManager dailyManager;
@@ -139,6 +142,15 @@ public class DailyPanel extends JPanel {
 		});
 		btnSaveDailys.setBounds(533, 213, 89, 23);
 		add(btnSaveDailys);
+		
+		JButton btnToDoList = new JButton("To Do List");
+		btnToDoList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dailyManager.getManager().switchPanel(TODO_CONST);
+			}
+		});
+		btnToDoList.setBounds(533, 247, 89, 23);
+		add(btnToDoList);
 		
 	}
 

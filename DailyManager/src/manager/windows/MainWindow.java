@@ -36,8 +36,8 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		thisWindow = this;
-		currentPanel = new DailyPanel(thisWindow, new DailyManager());
 		initialize();
+		frame.setVisible(true);
 	}
 	
 	public MainWindow(JPanel panel){
@@ -60,6 +60,7 @@ public class MainWindow {
 		initialize();
 		frame.setVisible(true);
 	}
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -68,7 +69,7 @@ public class MainWindow {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 625);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(currentPanel);
+		//frame.getContentPane().add(currentPanel);
 	}
 	
 	public void enableFrame(boolean b){
@@ -77,6 +78,15 @@ public class MainWindow {
 	
 	public JFrame getFrame(){
 		return frame;
+	}
+	
+	public void setPanel(JPanel panel){
+		currentPanel = panel;
+		frame.getContentPane().removeAll();
+		frame.getContentPane().add(currentPanel);
+		frame.revalidate();
+		//frame.setVisible(true);
+		frame.repaint();
 	}
 
 }

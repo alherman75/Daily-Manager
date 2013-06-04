@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import manager.Manager;
 import manager.windows.*;
 
 public class DailyManager {
@@ -13,6 +14,8 @@ public class DailyManager {
 	private ArrayList<Daily> dailyList;
 	private static DailyManager thisManager;
 	private static MainWindow mainWindow;
+	private DailyPanel dailyPanel;
+	private Manager manager;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -34,13 +37,48 @@ public class DailyManager {
 	
 	// Not Getters and Setters
 
+	public DailyPanel getDailyPanel() {
+		return dailyPanel;
+	}
+
+	public void setDailyPanel(DailyPanel dailyPanel) {
+		this.dailyPanel = dailyPanel;
+	}
+
+	public void setNumberofDailys(int numberofDailys) {
+		this.numberofDailys = numberofDailys;
+	}
+
+	
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+
 	public DailyManager() {
 		numberofDailys = 0;
 		dailyList = new ArrayList<Daily>();
+		thisManager = this;
+		//dailyPanel = new DailyPanel();
 	}
 	public DailyManager(MainWindow window){
-		thisManager = new DailyManager();
+		numberofDailys = 0;
+		dailyList = new ArrayList<Daily>();
+		thisManager = this;
 		mainWindow = window;
+		dailyPanel = new DailyPanel(mainWindow, thisManager);
+	}
+	
+	public DailyManager(MainWindow window, Manager m){
+		numberofDailys = 0;
+		dailyList = new ArrayList<Daily>();
+		thisManager = this;
+		mainWindow = window;
+		manager = m;
+		dailyPanel = new DailyPanel(mainWindow, thisManager);
 	}
 
 	public void addDaily(Daily d) {

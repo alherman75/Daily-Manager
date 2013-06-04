@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 
 public class ToDoPanel extends JPanel {
 
+	private static final int DAILY_CONST = 1;
+	private static final int TODO_CONST = 2;
 
 	private ToDoPanel mainPanel;
 	private static MainWindow mainWindow;
@@ -90,6 +92,15 @@ public class ToDoPanel extends JPanel {
 		});
 		addToDoButton.setBounds(297, 166, 106, 32);
 		add(addToDoButton);
+		
+		JButton btnToDailys = new JButton("To Dailys");
+		btnToDailys.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				toDoManager.getManager().switchPanel(DAILY_CONST);
+			}
+		});
+		btnToDailys.setBounds(297, 209, 106, 32);
+		add(btnToDailys);
 	}
 	
 	private void addRow(JTable table, String s){
