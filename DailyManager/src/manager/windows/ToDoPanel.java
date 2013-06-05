@@ -52,7 +52,11 @@ public class ToDoPanel extends JPanel {
 		scrollPaneToDo.setBounds(10, 11, 277, 503);
 		add(scrollPaneToDo);
 		
-		toDoTable = new JTable();
+		toDoTable = new JTable(){
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			};
+		};
 		toDoTable.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -67,7 +71,11 @@ public class ToDoPanel extends JPanel {
 		scrollPaneCompleted.setBounds(413, 11, 277, 503);
 		add(scrollPaneCompleted);
 		
-		completedTable = new JTable();
+		completedTable = new JTable(){
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			};
+		};
 		completedTable.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -84,7 +92,7 @@ public class ToDoPanel extends JPanel {
 				moveToComplete();
 			}
 		});
-		moveCompleted.setBounds(297, 80, 106, 32);
+		moveCompleted.setBounds(297, 143, 106, 32);
 		add(moveCompleted);
 		
 		JButton moveToDo = new JButton("<-");
@@ -93,7 +101,7 @@ public class ToDoPanel extends JPanel {
 				moveToIncomplete();
 			}
 		});
-		moveToDo.setBounds(297, 123, 106, 32);
+		moveToDo.setBounds(297, 186, 106, 32);
 		add(moveToDo);
 		
 		JButton addToDoButton = new JButton("Add To Do Item");
@@ -102,7 +110,7 @@ public class ToDoPanel extends JPanel {
 				AddToDoWindow add = new AddToDoWindow(mainWindow, mainPanel);
 			}
 		});
-		addToDoButton.setBounds(297, 166, 106, 32);
+		addToDoButton.setBounds(297, 229, 106, 32);
 		add(addToDoButton);
 		
 		JButton btnToDailys = new JButton("To Dailys");
@@ -111,7 +119,7 @@ public class ToDoPanel extends JPanel {
 				toDoManager.getManager().switchPanel(DAILY_CONST);
 			}
 		});
-		btnToDailys.setBounds(297, 209, 106, 32);
+		btnToDailys.setBounds(297, 11, 106, 32);
 		add(btnToDailys);
 		
 		JButton btnSaveList = new JButton("Save List");
@@ -120,7 +128,7 @@ public class ToDoPanel extends JPanel {
 				saveList();
 			}
 		});
-		btnSaveList.setBounds(297, 303, 89, 23);
+		btnSaveList.setBounds(297, 422, 89, 23);
 		add(btnSaveList);
 		
 		JButton btnLoadList = new JButton("Load List");
@@ -129,8 +137,26 @@ public class ToDoPanel extends JPanel {
 				loadList();
 			}
 		});
-		btnLoadList.setBounds(297, 337, 89, 23);
+		btnLoadList.setBounds(297, 446, 89, 23);
 		add(btnLoadList);
+		
+		JButton btnNewButton = new JButton("Delete Item");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				removeItem();
+			}
+		});
+		btnNewButton.setBounds(297, 272, 106, 32);
+		add(btnNewButton);
+		
+		JButton btnDeleteCompleted = new JButton("Delete Completed");
+		btnDeleteCompleted.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeCompleted();
+			}
+		});
+		btnDeleteCompleted.setBounds(297, 315, 106, 32);
+		add(btnDeleteCompleted);
 	}
 	
 	private void addRow(JTable table, String s){
@@ -175,7 +201,7 @@ public class ToDoPanel extends JPanel {
 			try{
 				FileReader fr = new FileReader(file);
 				BufferedReader br = new BufferedReader(fr);
-				toDoManager.readLists(br);
+				toDoManager.getManager().loadFile(br);
 			} catch (IOException e){
 				e.printStackTrace();
 			}
@@ -192,13 +218,54 @@ public class ToDoPanel extends JPanel {
 			try {
 				FileWriter fw = new FileWriter(file);
 				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(toDoManager.toString());
+				toDoManager.getManager().saveFile(bw);
 				bw.close();
 				fw.close();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		}
+	}
+	
+	public void updateTables(){
+		toDoTable.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"To-Do Items List"
+				}
+			));
+		completedTable.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Completed Items List"
+				}
+			));
+		
+		for(ToDoItem item: toDoManager.getItemList()){
+			addRow(toDoTable, item.getDescription());
+		}
+		
+		for(ToDoItem item: toDoManager.getCompletedList()){
+			addRow(completedTable, item.getDescription());
+		}
+	}
+	
+	private void removeItem(){
+		int index = toDoTable.getSelectedRow();
+		if(index != -1){
+			removeRow(toDoTable, index);
+			toDoManager.removeItem(index);
+		}
+	}
+	
+	private void removeCompleted(){
+		int index = completedTable.getSelectedRow();
+		if(index != -1){
+			removeRow(completedTable, index);
+			toDoManager.removeCompleted(index);
 		}
 	}
 }

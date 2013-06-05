@@ -106,7 +106,11 @@ public class DailyPanel extends JPanel {
 		historyPane.setBounds(258, 179, 265, 273);
 		add(historyPane);
 
-		historyTable = new JTable();
+		historyTable = new JTable(){
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			};
+		};
 		defaultHistoryTable = new DefaultTableModel(new Object[][] {},
 				new String[] { "Date", "Completed" });
 		historyTable.setModel(defaultHistoryTable);
@@ -239,7 +243,6 @@ public class DailyPanel extends JPanel {
 				BufferedReader br = new BufferedReader(fr);
 				//dailyManager.readDailys(br);
 				dailyManager.getManager().loadFile(br);
-				updateDailyTable();
 			} catch (IOException e){
 				e.printStackTrace();
 			}
@@ -259,7 +262,7 @@ public class DailyPanel extends JPanel {
 		dailyTable.getColumnModel().getColumn(1).setMaxWidth(67);
 	}
 	
-	private void updateDailyTable(){
+	public void updateDailyTable(){
 		resetDailyTable();
 		
 		ArrayList<Daily> list = dailyManager.getDailyList();

@@ -80,6 +80,9 @@ public class Manager {
 		try {
 			dailyManager.readDailys(reader);
 			toDoManager.readLists(reader);
+			
+			dailyManager.getDailyPanel().updateDailyTable();
+			toDoManager.getToDoPanel().updateTables();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

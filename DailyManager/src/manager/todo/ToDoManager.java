@@ -101,6 +101,8 @@ public class ToDoManager {
 	}
 	
 	public void readLists(BufferedReader reader){
+		itemList = new ArrayList<ToDoItem>();
+		completedList = new ArrayList<ToDoItem>();
 		try {
 			String line = reader.readLine();
 			if(line.substring(0, 11).equals("To Do List:")){
