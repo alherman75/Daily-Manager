@@ -1,5 +1,8 @@
 package manager.todo;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class ToDoItem {
 
 	private String description;
@@ -45,8 +48,26 @@ public class ToDoItem {
 
 	@Override
 	public String toString(){
-		String result = description;
-		result += " Completed: " + completed;
+		String result = description + "\n";
+		if(completed)
+			result += "1";
+		else
+			result += "0";
 		return result;
+	}
+	
+	public void readToDo(BufferedReader reader){
+		try {
+			String line = reader.readLine();
+			description = line;
+			line = reader.readLine();
+			if(line.equals("1"))
+				completed = true;
+			else if(line.equals("0"))
+				completed = false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

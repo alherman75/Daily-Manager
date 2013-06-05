@@ -216,7 +216,9 @@ public class DailyPanel extends JPanel {
 			try {
 				FileWriter fw = new FileWriter(file);
 				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(dailyManager.toString());
+				//bw.write(dailyManager.toString());
+				dailyManager.getManager().saveFile(bw);
+				
 				bw.close();
 				fw.close();
 			} catch (IOException e1) {
@@ -235,7 +237,8 @@ public class DailyPanel extends JPanel {
 			try{
 				FileReader fr = new FileReader(file);
 				BufferedReader br = new BufferedReader(fr);
-				dailyManager.readDailys(br);
+				//dailyManager.readDailys(br);
+				dailyManager.getManager().loadFile(br);
 				updateDailyTable();
 			} catch (IOException e){
 				e.printStackTrace();

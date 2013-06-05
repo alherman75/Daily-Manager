@@ -1,5 +1,9 @@
 package manager;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 import manager.daily.DailyManager;
 import manager.todo.ToDoManager;
 import manager.windows.MainWindow;
@@ -59,6 +63,26 @@ public class Manager {
 		case 2:
 			mainWindow.setPanel(toDoManager.getToDoPanel());
 			break;
+		}
+	}
+	
+	public void saveFile(BufferedWriter writer){
+		try {
+			writer.write(dailyManager.toString());
+			writer.write(toDoManager.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadFile(BufferedReader reader){
+		try {
+			dailyManager.readDailys(reader);
+			toDoManager.readLists(reader);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

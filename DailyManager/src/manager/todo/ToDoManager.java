@@ -1,5 +1,7 @@
 package manager.todo;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import manager.Manager;
@@ -85,17 +87,42 @@ public class ToDoManager {
 	public String toString(){
 		String result = "";
 		
-		result += "To Do List:\n";
+		result += "To Do List: " + itemList.size() + "\n";
 		for(ToDoItem i: itemList){
-			result += "\t" + i + "\n";
+			result += i + "\n";
 		}
 		
-		result += "Completed List:\n";
+		result += "Completed List: " + completedList.size() + "\n";
 		for(ToDoItem i: completedList){
-			result += "\t" + i + "\n";
+			result += i + "\n";
 		}
 		
 		return result;
+	}
+	
+	public void readLists(BufferedReader reader){
+		try {
+			String line = reader.readLine();
+			if(line.substring(0, 11).equals("To Do List:")){
+				int todo = Integer.parseInt(line.substring(12, 13));
+				for(int i = 0; i < todo; i++){
+					ToDoItem item = new ToDoItem();
+					item.readToDo(reader);
+					itemList.add(item);
+				}
+				line = reader.readLine();
+				int comp = Integer.parseInt(line.substring(16, 17));
+				for(int i = 0; i < comp; i++){
+					ToDoItem item = new ToDoItem();
+					item.readToDo(reader);
+					completedList.add(item);
+				}
+			}
+			System.out.println(this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	// Various Methods
@@ -126,4 +153,5 @@ public class ToDoManager {
 		itemList.add(item);
 		return item;
 	}
+	
 }

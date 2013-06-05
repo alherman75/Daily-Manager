@@ -141,8 +141,7 @@ public class DailyManager {
 		
 		for(int i = 0; i < dailyList.size(); i++){
 			result += dailyList.get(i).toString();
-			if(i + 1 < dailyList.size())
-				result += "\n";
+			result += "\n";
 		}
 		
 		return result;
