@@ -48,7 +48,15 @@ public class DailyPanel extends JPanel {
 		
 		
 		JScrollPane dailyPane = new JScrollPane();
-		dailyPane.setBounds(10, 11, 238, 441);
+		dailyPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ListSelectionModel model = dailyTable.getSelectionModel();
+				model.removeSelectionInterval(0,dailyTable.getRowCount());
+			}
+		});
+		dailyPane.setBounds(10, 26, 238, 441);
+		dailyPane.setFocusable(true);
 		mainPanel.add(dailyPane);
 
 		dailyTable = new JTable() {
@@ -114,6 +122,9 @@ public class DailyPanel extends JPanel {
 		defaultHistoryTable = new DefaultTableModel(new Object[][] {},
 				new String[] { "Date", "Completed" });
 		historyTable.setModel(defaultHistoryTable);
+		historyTable.setRowSelectionAllowed(false);
+		historyTable.setCellSelectionEnabled(false);
+		historyTable.setColumnSelectionAllowed(false);
 		historyPane.setViewportView(historyTable);
 		
 		JButton btnGetHistory = new JButton("Get History");
@@ -122,11 +133,11 @@ public class DailyPanel extends JPanel {
 				updateHistory();
 			}
 		});
-		btnGetHistory.setBounds(476, 148, 89, 23);
+		btnGetHistory.setBounds(476, 148, 103, 23);
 		add(btnGetHistory);
 		
 		JLabel lblDailyHistory = new JLabel("Daily History");
-		lblDailyHistory.setBounds(258, 162, 68, 14);
+		lblDailyHistory.setBounds(258, 162, 89, 14);
 		add(lblDailyHistory);
 		
 		JButton btnLoadDailys = new JButton("Load Dailys");
@@ -135,7 +146,7 @@ public class DailyPanel extends JPanel {
 				loadDaily();
 			}
 		});
-		btnLoadDailys.setBounds(533, 179, 89, 23);
+		btnLoadDailys.setBounds(533, 179, 103, 23);
 		add(btnLoadDailys);
 		
 		JButton btnSaveDailys = new JButton("Save Dailys");
@@ -144,7 +155,7 @@ public class DailyPanel extends JPanel {
 				saveDaily();
 			}
 		});
-		btnSaveDailys.setBounds(533, 213, 89, 23);
+		btnSaveDailys.setBounds(533, 213, 103, 23);
 		add(btnSaveDailys);
 		
 		JButton btnToDoList = new JButton("To Do List");
@@ -153,8 +164,9 @@ public class DailyPanel extends JPanel {
 				dailyManager.getManager().switchPanel(TODO_CONST);
 			}
 		});
-		btnToDoList.setBounds(533, 247, 89, 23);
+		btnToDoList.setBounds(533, 247, 103, 32);
 		add(btnToDoList);
+		
 		
 	}
 
@@ -179,7 +191,7 @@ public class DailyPanel extends JPanel {
 			ArrayList<Boolean> historyComp = dailys.get(dailyTable.getSelectedRow()).getHistoryComplete();
 			ArrayList<GregorianCalendar> historyDate = dailys.get(dailyTable.getSelectedRow()).getHistoryDate();
 			
-			for(int i = 0; i < historyComp.size(); i++){
+			for(int i = historyComp.size() -1; i >= 0; i--){
 				GregorianCalendar date = historyDate.get(i);
 				String sdate = new SimpleDateFormat("MM/dd/yyyy").format(date.getTime());
 				model.addRow(new Object[] {sdate, historyComp.get(i)});
@@ -270,4 +282,16 @@ public class DailyPanel extends JPanel {
 			addRow(list.get(i).getDailyDescription(), list.get(i).getCompletedToday());
 		}
 	}
+
+	public JFileChooser getFileChooser() {
+		return fileChooser;
+	}
+
+	public void setFileChooser(JFileChooser fileChooser) {
+		this.fileChooser = fileChooser;
+	}
+	
+	//Getters and Setters
+	
+	
 }

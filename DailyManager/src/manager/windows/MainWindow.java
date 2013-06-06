@@ -3,6 +3,8 @@ package manager.windows;
 import java.awt.EventQueue;
 
 import javax.swing.*;
+
+import manager.Manager;
 import manager.daily.*;
 import manager.todo.ToDoManager;
 import manager.windows.*;
@@ -14,6 +16,7 @@ public class MainWindow {
 	private DailyManager dailyManager;
 	private ToDoManager toDoManager;
 	private MainWindow thisWindow;
+	private Manager manager;
 
 	/**
 	 * Launch the application.
@@ -35,6 +38,13 @@ public class MainWindow {
 	 * Create the application.
 	 */
 	public MainWindow() {
+		thisWindow = this;
+		initialize();
+		frame.setVisible(true);
+	}
+	
+	public MainWindow(Manager man){
+		manager = man;
 		thisWindow = this;
 		initialize();
 		frame.setVisible(true);
@@ -83,6 +93,7 @@ public class MainWindow {
 	public void setPanel(JPanel panel){
 		currentPanel = panel;
 		frame.getContentPane().removeAll();
+		frame.getContentPane().add(manager.getMenuPanel());
 		frame.getContentPane().add(currentPanel);
 		frame.revalidate();
 		//frame.setVisible(true);

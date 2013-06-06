@@ -7,6 +7,7 @@ import java.io.IOException;
 import manager.daily.DailyManager;
 import manager.todo.ToDoManager;
 import manager.windows.MainWindow;
+import manager.windows.MenuPanel;
 
 public class Manager {
 
@@ -16,6 +17,7 @@ public class Manager {
 	private ToDoManager toDoManager;
 	private DailyManager dailyManager;
 	private MainWindow mainWindow;
+	private MenuPanel menuPanel;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -23,9 +25,10 @@ public class Manager {
 	}
 
 	public Manager(){
-		mainWindow = new MainWindow();
+		mainWindow = new MainWindow(this);
 		dailyManager = new DailyManager(mainWindow, this);
 		toDoManager = new ToDoManager(mainWindow, this);
+		menuPanel = new MenuPanel(this);
 		mainWindow.setPanel(dailyManager.getDailyPanel());
 	}
 
@@ -53,8 +56,19 @@ public class Manager {
 		this.mainWindow = mainWindow;
 	}
 	
+	public MenuPanel getMenuPanel() {
+		return menuPanel;
+	}
+
+	public void setMenuPanel(MenuPanel menuPanel) {
+		this.menuPanel = menuPanel;
+	}
+	
+	
 	//Other Methods
 	
+	
+
 	public void switchPanel(int panel){
 		switch(panel){
 		case 1:
@@ -74,6 +88,10 @@ public class Manager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void saveFile(){
+		
 	}
 	
 	public void loadFile(BufferedReader reader){
