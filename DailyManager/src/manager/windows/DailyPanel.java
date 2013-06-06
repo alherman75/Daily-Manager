@@ -39,7 +39,7 @@ public class DailyPanel extends JPanel {
 		dailyManager = man;
 
 		mainPanel = this;
-		mainPanel.setBounds(0, 0, 700, 525);
+		mainPanel.setBounds(0, 25, 700, 525);
 		mainPanel.setLayout(null);
 		setLayout(null);
 		
@@ -140,33 +140,6 @@ public class DailyPanel extends JPanel {
 		lblDailyHistory.setBounds(258, 162, 89, 14);
 		add(lblDailyHistory);
 		
-		JButton btnLoadDailys = new JButton("Load Dailys");
-		btnLoadDailys.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				loadDaily();
-			}
-		});
-		btnLoadDailys.setBounds(533, 179, 103, 23);
-		add(btnLoadDailys);
-		
-		JButton btnSaveDailys = new JButton("Save Dailys");
-		btnSaveDailys.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveDaily();
-			}
-		});
-		btnSaveDailys.setBounds(533, 213, 103, 23);
-		add(btnSaveDailys);
-		
-		JButton btnToDoList = new JButton("To Do List");
-		btnToDoList.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dailyManager.getManager().switchPanel(TODO_CONST);
-			}
-		});
-		btnToDoList.setBounds(533, 247, 103, 32);
-		add(btnToDoList);
-		
 		
 	}
 
@@ -219,45 +192,6 @@ public class DailyPanel extends JPanel {
 			DefaultTableModel model = (DefaultTableModel) dailyTable.getModel();
 			model.setValueAt(bool, dailyTable.getSelectedRow(), 1);
 			updateHistory();
-		}
-	}
-	
-	private void saveDaily(){
-		int returnVal = fileChooser.showSaveDialog(mainPanel);
-		if(returnVal == JFileChooser.APPROVE_OPTION){
-			File file = fileChooser.getSelectedFile();
-			if(!file.getName().endsWith(".dts"))
-				file = new File(fileChooser.getSelectedFile() + ".dts");
-			
-			try {
-				FileWriter fw = new FileWriter(file);
-				BufferedWriter bw = new BufferedWriter(fw);
-				//bw.write(dailyManager.toString());
-				dailyManager.getManager().saveFile(bw);
-				
-				bw.close();
-				fw.close();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-	}
-	
-	private void loadDaily(){
-		int returnVal = fileChooser.showOpenDialog(mainPanel);
-		if(returnVal == JFileChooser.APPROVE_OPTION){
-			File file = fileChooser.getSelectedFile();
-			
-			
-			try{
-				FileReader fr = new FileReader(file);
-				BufferedReader br = new BufferedReader(fr);
-				//dailyManager.readDailys(br);
-				dailyManager.getManager().loadFile(br);
-			} catch (IOException e){
-				e.printStackTrace();
-			}
 		}
 	}
 	

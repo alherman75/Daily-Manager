@@ -23,6 +23,7 @@ public class MenuPanel extends JPanel {
 	private Manager manager;
 	private MenuPanel mainPanel;
 	private JFileChooser fileChooser;
+	private JLabel lblCurrentSaveFile;
 
 	public MenuPanel(Manager man) {
 		
@@ -34,6 +35,11 @@ public class MenuPanel extends JPanel {
 		
 		fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Daily Save File (.dts)", "dts"));
+		setLayout(null);
+		
+		lblCurrentSaveFile = new JLabel("Current Save File");
+		lblCurrentSaveFile.setBounds(107, 0, 144, 21);
+		add(lblCurrentSaveFile);
 		
 		
 		// Start of Menu stuff
@@ -51,15 +57,31 @@ public class MenuPanel extends JPanel {
 				loadList();
 			}
 		});
+		
+		JMenuItem mntmNew = new JMenuItem("New");
+		mntmNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				manager.newFile();
+			}
+		});
+		mnFile.add(mntmNew);
 		mnFile.add(mntmLoadHistory);
 
-		JMenuItem mntmSaveHistory = new JMenuItem("Save History");
-		mntmSaveHistory.addActionListener(new ActionListener() {
+		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
+		mntmSaveAs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveList();
 			}
 		});
+		
+		JMenuItem mntmSaveHistory = new JMenuItem("Save History");
+		mntmSaveHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveCurrentList();
+			}
+		});
 		mnFile.add(mntmSaveHistory);
+		mnFile.add(mntmSaveAs);
 
 		JMenu mnView = new JMenu(" View ");
 		menuBar.add(mnView);
@@ -67,6 +89,7 @@ public class MenuPanel extends JPanel {
 		JMenuItem mntmDaily = new JMenuItem("Daily");
 		mntmDaily.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				manager.getMainWindow().setCurrentPanelNumber(DAILY_CONST);
 				manager.switchPanel(DAILY_CONST);
 			}
 		});
@@ -75,6 +98,7 @@ public class MenuPanel extends JPanel {
 		JMenuItem mntmToDoList = new JMenuItem("To Do List");
 		mntmToDoList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				manager.getMainWindow().setCurrentPanelNumber(TODO_CONST);
 				manager.switchPanel(TODO_CONST);
 			}
 		});
@@ -86,6 +110,8 @@ public class MenuPanel extends JPanel {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 
+			setCurrSaveFile(file);
+			
 			try {
 				FileReader fr = new FileReader(file);
 				BufferedReader br = new BufferedReader(fr);
@@ -102,7 +128,9 @@ public class MenuPanel extends JPanel {
 			File file = fileChooser.getSelectedFile();
 			if (!file.getName().endsWith(".dts"))
 				file = new File(fileChooser.getSelectedFile() + ".dts");
-
+			
+			setCurrSaveFile(file);
+			
 			try {
 				FileWriter fw = new FileWriter(file);
 				BufferedWriter bw = new BufferedWriter(fw);
@@ -115,5 +143,27 @@ public class MenuPanel extends JPanel {
 			}
 		}
 	}
-
+	
+	private void saveCurrentList(){
+		File file = manager.getCurrentSaveFile();
+		if(file != null){
+			try {
+				FileWriter fw = new FileWriter(file);
+				BufferedWriter bw = new BufferedWriter(fw);
+				manager.saveFile(bw);
+				bw.close();
+				fw.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} else {
+			saveList();
+		}
+	}
+	
+	private void setCurrSaveFile(File file){
+		manager.setCurrentSaveFile(file);
+		lblCurrentSaveFile.setText(file.getName());
+	}
 }

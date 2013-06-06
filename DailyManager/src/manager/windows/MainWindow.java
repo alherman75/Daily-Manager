@@ -17,6 +17,8 @@ public class MainWindow {
 	private ToDoManager toDoManager;
 	private MainWindow thisWindow;
 	private Manager manager;
+	
+	private int currentPanelNumber;
 
 	/**
 	 * Launch the application.
@@ -93,11 +95,23 @@ public class MainWindow {
 	public void setPanel(JPanel panel){
 		currentPanel = panel;
 		frame.getContentPane().removeAll();
-		frame.getContentPane().add(manager.getMenuPanel());
+
+		
 		frame.getContentPane().add(currentPanel);
+		frame.getContentPane().add(manager.getMenuPanel());
 		frame.revalidate();
 		//frame.setVisible(true);
 		frame.repaint();
 	}
 
+	public int getCurrentPanelNumber() {
+		return currentPanelNumber;
+	}
+
+	public void setCurrentPanelNumber(int currentPanelNumber) {
+		this.currentPanelNumber = currentPanelNumber;
+	}
+
+	
+	
 }

@@ -2,6 +2,7 @@ package manager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 
 import manager.daily.DailyManager;
@@ -19,12 +20,15 @@ public class Manager {
 	private MainWindow mainWindow;
 	private MenuPanel menuPanel;
 	
+	private File currentSaveFile;
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Manager m = new Manager();
 	}
 
 	public Manager(){
+		currentSaveFile = null;
 		mainWindow = new MainWindow(this);
 		dailyManager = new DailyManager(mainWindow, this);
 		toDoManager = new ToDoManager(mainWindow, this);
@@ -64,10 +68,22 @@ public class Manager {
 		this.menuPanel = menuPanel;
 	}
 	
+	public File getCurrentSaveFile() {
+		return currentSaveFile;
+	}
+
+	public void setCurrentSaveFile(File currentSaveFile) {
+		this.currentSaveFile = currentSaveFile;
+	}	
+	
+	
+	
+	
+	
+	
+	
 	
 	//Other Methods
-	
-	
 
 	public void switchPanel(int panel){
 		switch(panel){
@@ -105,5 +121,11 @@ public class Manager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void newFile(){
+		dailyManager = new DailyManager(mainWindow, this);
+		toDoManager = new ToDoManager(mainWindow, this);
+		switchPanel(mainWindow.getCurrentPanelNumber());
 	}
 }

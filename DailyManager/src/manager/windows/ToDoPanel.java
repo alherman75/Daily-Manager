@@ -48,7 +48,7 @@ public class ToDoPanel extends JPanel {
 		toDoManager = man;
 
 		mainPanel = this;
-		mainPanel.setBounds(00, 00, 700, 525);
+		mainPanel.setBounds(00, 25, 700, 525);
 		mainPanel.setLayout(null);
 		mainPanel.setFocusable(true);
 		setLayout(null);
@@ -129,33 +129,6 @@ public class ToDoPanel extends JPanel {
 		addToDoButton.setBounds(297, 229, 106, 32);
 		add(addToDoButton);
 
-		JButton btnToDailys = new JButton("To Dailys");
-		btnToDailys.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				toDoManager.getManager().switchPanel(DAILY_CONST);
-			}
-		});
-		btnToDailys.setBounds(297, 11, 106, 32);
-		add(btnToDailys);
-
-		JButton btnSaveList = new JButton("Save List");
-		btnSaveList.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				saveList();
-			}
-		});
-		btnSaveList.setBounds(297, 422, 89, 23);
-		add(btnSaveList);
-
-		JButton btnLoadList = new JButton("Load List");
-		btnLoadList.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				loadList();
-			}
-		});
-		btnLoadList.setBounds(297, 446, 89, 23);
-		add(btnLoadList);
-
 		JButton btnNewButton = new JButton("Delete Item");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -181,7 +154,7 @@ public class ToDoPanel extends JPanel {
 				model.removeSelectionInterval(0, 0);
 			}
 		});
-		btnTrial.setBounds(297, 54, 106, 32);
+		btnTrial.setBounds(297, 83, 106, 32);
 		add(btnTrial);
 	}
 
@@ -215,41 +188,6 @@ public class ToDoPanel extends JPanel {
 			ToDoItem item = toDoManager.setNotCompeleted(index);
 			removeRow(completedTable, index);
 			addRow(toDoTable, item.getDescription());
-		}
-	}
-
-	private void loadList() {
-		int returnVal = fileChooser.showOpenDialog(mainPanel);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();
-
-			try {
-				FileReader fr = new FileReader(file);
-				BufferedReader br = new BufferedReader(fr);
-				toDoManager.getManager().loadFile(br);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private void saveList() {
-		int returnVal = fileChooser.showSaveDialog(mainPanel);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();
-			if (!file.getName().endsWith(".dts"))
-				file = new File(fileChooser.getSelectedFile() + ".dts");
-
-			try {
-				FileWriter fw = new FileWriter(file);
-				BufferedWriter bw = new BufferedWriter(fw);
-				toDoManager.getManager().saveFile(bw);
-				bw.close();
-				fw.close();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 		}
 	}
 
