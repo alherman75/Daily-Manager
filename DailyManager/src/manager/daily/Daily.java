@@ -172,13 +172,80 @@ public class Daily {
 		//System.out.println("Compare: " + mostRecent + " " + today);
 		if(mostRecent.equals(today)){
 			completedToday = historyComplete.get(historyComplete.size()-1);
+			
 		}
 		else{
+			// Update History for days not recorded
+			boolean equal = false;
+			while(!equal){
+				GregorianCalendar lastCal = historyDate.get(historyDate.size()-1);
+				GregorianCalendar newLastCal = new GregorianCalendar();
+				newLastCal.setTime(lastCal.getTime());
+				GregorianCalendar todayCal = new GregorianCalendar();
+				newLastCal.add(GregorianCalendar.DATE, 1);
+				mostRecent = new SimpleDateFormat("MM/dd/yyyy").format(newLastCal.getTime());
+				today = new SimpleDateFormat("MM/dd/yyyy").format(todayCal.getTime());
+				if(mostRecent.equals(today)){
+					equal = true;
+				}
+				else{
+					addHistory(newLastCal, false);
+				}
+			}
+			
 			addToday();
 		}
 		} catch(IOException e){
 			System.err.println("Caught IOException: " + e.getMessage());
 		}
 	}
+	
+	public double getCompletionRate(){
+		double sum = 0;
+		for(Boolean b: historyComplete){
+			if(b.equals(Boolean.FALSE))
+				sum += 0;
+			else if(b.equals(Boolean.TRUE))
+				sum += 1;
+		}
+		
+		if(sum == 0)
+			return 0;
+		else
+			return (double)(sum/historyComplete.size());
+	}
+	
+	public int getLongestStreak(){
+		int longestStreak = 0;
+		int currentStreak = 0;
+		for(Boolean b: historyComplete){
+			if(b.equals(Boolean.TRUE)){
+				currentStreak++;
+			}
+			else{
+				if(currentStreak > longestStreak)
+					longestStreak = currentStreak;
+				currentStreak = 0;
+			}
+		}
+		
+		return longestStreak;
+	}
+
+	public int getCurrentStreak(){
+		int currentStreak = 0;
+		for(Boolean b: historyComplete){
+			if(b.equals(Boolean.TRUE)){
+				currentStreak++;
+			}
+			else{
+				currentStreak = 0;
+			}
+		}
+		
+		return currentStreak;
+	}
+
+
 
 }
