@@ -106,9 +106,6 @@ public class Manager {
 		}
 	}
 	
-	public void saveFile(){
-		
-	}
 	
 	public void loadFile(BufferedReader reader){
 		try {

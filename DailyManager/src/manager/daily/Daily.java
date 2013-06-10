@@ -209,10 +209,12 @@ public class Daily {
 				sum += 1;
 		}
 		
+		double fraction = sum/historyComplete.size();
+		
 		if(sum == 0)
 			return 0;
 		else
-			return (double)(sum/historyComplete.size());
+			return (double)(fraction*100);
 	}
 	
 	public int getLongestStreak(){
@@ -223,12 +225,13 @@ public class Daily {
 				currentStreak++;
 			}
 			else{
-				if(currentStreak > longestStreak)
-					longestStreak = currentStreak;
+				if(currentStreak > longestStreak){
+					longestStreak = currentStreak;}
 				currentStreak = 0;
 			}
 		}
-		
+		if(currentStreak > longestStreak)
+			longestStreak = currentStreak;
 		return longestStreak;
 	}
 

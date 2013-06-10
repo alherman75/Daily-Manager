@@ -140,6 +140,15 @@ public class DailyPanel extends JPanel {
 		lblDailyHistory.setBounds(258, 162, 89, 14);
 		add(lblDailyHistory);
 		
+		JButton btnStatistics = new JButton("Statistics");
+		btnStatistics.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openStatistics();
+			}
+		});
+		btnStatistics.setBounds(422, 69, 89, 23);
+		add(btnStatistics);
+		
 		
 	}
 
@@ -217,6 +226,13 @@ public class DailyPanel extends JPanel {
 		}
 	}
 
+	private void openStatistics(){
+		int index = dailyTable.getSelectedRow();
+		if(index != -1){
+			DailyStatsWindow d = new DailyStatsWindow(dailyManager.getDailyList().get(index), thisWindow);
+		}
+	}
+	
 	public JFileChooser getFileChooser() {
 		return fileChooser;
 	}
@@ -224,8 +240,4 @@ public class DailyPanel extends JPanel {
 	public void setFileChooser(JFileChooser fileChooser) {
 		this.fileChooser = fileChooser;
 	}
-	
-	//Getters and Setters
-	
-	
 }
